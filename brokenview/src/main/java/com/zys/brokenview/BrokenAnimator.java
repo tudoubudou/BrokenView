@@ -1,6 +1,5 @@
 package com.zys.brokenview;
 
-import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -19,10 +18,12 @@ import android.graphics.Shader;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
+import com.nineoldandroids.animation.ValueAnimator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class BrokenAnimator extends ValueAnimator{
+class BrokenAnimator extends ValueAnimator {
 
     /**
      * SEGMENT is the base of Circle-Rifts radius,and it's also

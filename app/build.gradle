@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.zys.demo"
-        minSdkVersion 14
+        minSdkVersion 10
         targetSdkVersion 23
         versionCode 103
         versionName "1.0.3"
