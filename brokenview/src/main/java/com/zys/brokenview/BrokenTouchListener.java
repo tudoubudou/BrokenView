@@ -11,7 +11,7 @@ public class BrokenTouchListener implements View.OnTouchListener  {
     private BrokenAnimator brokenAnim;
     private BrokenView brokenView;
     private BrokenConfig config;
-    private BrokenTouchListener(Builder builder) {
+    private  BrokenTouchListener(Builder builder) {
         brokenView = builder.brokenView;
         config = builder.config;
     }
@@ -95,7 +95,8 @@ public class BrokenTouchListener implements View.OnTouchListener  {
                                 config.childView.getBottom());
                     }
                     if(config.region == null || config.region.contains((int)event.getX(),(int)event.getY())) {
-                        Point point = new Point((int) event.getRawX(), (int) event.getRawY());
+//                        Point point = new Point((int) event.getRawX(), (int) event.getRawY());
+                        Point point = new Point(v.getRight()/2, v.getBottom()/2);
                         brokenAnim = brokenView.getAnimator(v);
                         if (brokenAnim == null)
                             brokenAnim = brokenView.createAnimator(v, point, config);
@@ -115,8 +116,8 @@ public class BrokenTouchListener implements View.OnTouchListener  {
                 case MotionEvent.ACTION_UP:
                     brokenAnim = brokenView.getAnimator(v);
                     if (brokenAnim != null && brokenAnim.isStarted()) {
-                        if(brokenAnim.doReverse())
-                            brokenView.onBrokenCancel(v);
+                        /*if(brokenAnim.doReverse())
+                            brokenView.onBrokenCancel(v);*/
                     }
                     break;
             }

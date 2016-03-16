@@ -3,6 +3,7 @@ package com.zys.brokenview;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.view.View;
 
 import java.util.Random;
@@ -28,7 +29,9 @@ public class Utils {
             mCanvas.setBitmap(bitmap);
             mCanvas.translate(-view.getScrollX(), -view.getScrollY());
             view.draw(mCanvas);
-            mCanvas.setBitmap(null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+                mCanvas.setBitmap(null);
+            }
         }
         return bitmap;
     }

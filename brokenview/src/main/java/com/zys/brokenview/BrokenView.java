@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -39,7 +40,9 @@ public class BrokenView extends View {
         super(context, attrs, defStyleAttr);
         // KITKAT(API 19) and earlier need to set it when use
         // PathMeasure.getSegment to display resulting path.
-        setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+            setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
         enable = true;
         animMap = new HashMap<>();
         animList = new LinkedList<>();

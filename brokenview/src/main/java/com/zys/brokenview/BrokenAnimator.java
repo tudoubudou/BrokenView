@@ -17,6 +17,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
@@ -103,9 +104,11 @@ class BrokenAnimator extends ValueAnimator {
         buildPaintShader();
         warpStraightLines();
 
-        setFloatValues(0f,1f);
-        setInterpolator(new AccelerateInterpolator(2.0f));
-        setDuration(mConfig.breakDuration);
+        setFloatValues(0f, 1f);
+//        setFloatValues(0.9f, 1f);
+//        setInterpolator(new AccelerateInterpolator(2.0f));
+        setInterpolator(new DecelerateInterpolator(2.0f));
+        setDuration(200);
     }
 
     /**
