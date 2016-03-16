@@ -1,9 +1,13 @@
 package com.zys.demo;
 
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -40,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout parentLayout;
     private ImageView imageView;
-    private ListView listView;
-    private MyView myView;
-    private Button button;
-    private boolean hasAlpha;
-    private int resids[];
+//    private ListView listView;
+//    private MyView myView;
+//    private Button button;
+//    private boolean hasAlpha;
+//    private int resids[];
 
     private SeekBar complexitySeekbar;
     private SeekBar breakSeekbar;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER);
         setContentView(R.layout.activity_main);
 
         initView();
@@ -77,25 +83,25 @@ public class MainActivity extends AppCompatActivity {
         setOnTouchListener();
     }
 
-    private void initView(){
+    private void initView() {
         parentLayout = (RelativeLayout) findViewById(R.id.demo_parent);
         imageView = (ImageView) findViewById(R.id.demo_image);
-        listView = (ListView) findViewById(R.id.demo_list);
-        myView = (MyView) findViewById(R.id.demo_myview);
-        button = (Button) findViewById(R.id.demo_button);
+//        listView = (ListView) findViewById(R.id.demo_list);
+//        myView = (MyView) findViewById(R.id.demo_myview);
+//        button = (Button) findViewById(R.id.demo_button);
+//
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this,"Button onClick",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"Button onClick",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        TypedArray ar = getResources().obtainTypedArray(R.array.imgArray);
-        int len = ar.length();
-        resids = new int[len];
-        for (int i = 0; i < len; i++)
-            resids[i] = ar.getResourceId(i, 0);
+//        TypedArray ar = getResources().obtainTypedArray(R.array.imgArray);
+//        int len = ar.length();
+//        resids = new int[len];
+//        for (int i = 0; i < len; i++)
+//            resids[i] = ar.getResourceId(i, 0);
 
         initSeekBar();
         initToggleButton();
@@ -104,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
         refreshDate();
     }
-    private void initSeekBar(){
+
+    private void initSeekBar() {
         complexitySeekbar = (SeekBar) findViewById(R.id.seekbar_complexity);
         breakSeekbar = (SeekBar) findViewById(R.id.seekbar_break);
         fallSeekbar = (SeekBar) findViewById(R.id.seekbar_fall);
@@ -131,10 +138,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         radiusSeekbar.setOnSeekBarChangeListener(listener);
     }
 
-    private void initToggleButton(){
+    private void initToggleButton() {
         ToggleButton effectBtn = (ToggleButton) findViewById(R.id.toggle_effect);
         ToggleButton callbackBtn = (ToggleButton) findViewById(R.id.toggle_callback);
         final BrokenCallback callback = new MyCallBack();
@@ -167,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         callbackBtn.setOnCheckedChangeListener(listener);
     }
 
-    private void initToolbar(){
+    private void initToolbar() {
         toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -186,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initDrawerLayout(){
+    private void initDrawerLayout() {
 
         DrawerLayout mDrawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -224,34 +233,42 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void setViewVisible(){
-        parentLayout.setVisibility(View.VISIBLE);
+    private void setViewVisible() {
+//        parentLayout.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.VISIBLE);
-        listView.setVisibility(View.VISIBLE);
-        myView.setVisibility(View.VISIBLE);
-        button.setVisibility(View.VISIBLE);
+//        listView.setVisibility(View.VISIBLE);
+//        myView.setVisibility(View.VISIBLE);
+//        button.setVisibility(View.VISIBLE);
     }
 
-    public void refreshDate(){
-        Random rand = new Random();
-
-        List<ListItem> items = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            int color = Color.argb(0xff, rand.nextInt(0x99), rand.nextInt(0x99), rand.nextInt(0x99));
-            ListItem item = new ListItem(color, "list item " + i);
-            items.add(item);
-        }
-        listView.setAdapter(new SampleAdapter(MainActivity.this, android.R.layout.simple_list_item_1, items));
-
-        int pos = rand.nextInt(resids.length);
-        imageView.setImageResource(resids[pos]);
-        if(pos == 0 || pos == 1 || pos == 2)
-            hasAlpha = true;
-        else
-            hasAlpha = false;
+    public void refreshDate() {
+//        Random rand = new Random();
+//
+//        List<ListItem> items = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            int color = Color.argb(0xff, rand.nextInt(0x99), rand.nextInt(0x99), rand.nextInt(0x99));
+//            ListItem item = new ListItem(color, "list item " + i);
+//            items.add(item);
+//        }
+//        listView.setAdapter(new SampleAdapter(MainActivity.this, android.R.layout.simple_list_item_1, items));
+//
+//        int pos = rand.nextInt(resids.length);
+        long start = System.currentTimeMillis();
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        // 获取当前壁纸
+        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+        Bitmap bm = ((BitmapDrawable) wallpaperDrawable).getBitmap();
+        int radius = 180;
+        Bitmap blur_bm = FastBlur.doBlur(bm,radius,false);
+        imageView.setImageBitmap(blur_bm);
+        Toast.makeText(this,"time in ms" + (System.currentTimeMillis()-start),Toast.LENGTH_SHORT).show();
+//        if(pos == 0 || pos == 1 || pos == 2)
+//            hasAlpha = true;
+//        else
+//            hasAlpha = false;
     }
 
-    public void setOnTouchListener(){
+    public void setOnTouchListener() {
     /*
         if you don't want the childView of parentLayout intercept touch event
         set like this:
@@ -270,65 +287,65 @@ public class MainActivity extends AppCompatActivity {
                 build();
         and set the button don't intercept touch event at the same time
     */
-        parentLayout.setOnTouchListener(colorfulListener);
-        button.setOnTouchListener(colorfulListener);
-        myView.setOnTouchListener(whiteListener);
-        listView.setOnTouchListener(colorfulListener);
-        if(hasAlpha)
-            imageView.setOnTouchListener(whiteListener);
-        else
-            imageView.setOnTouchListener(colorfulListener);
+//        parentLayout.setOnTouchListener(colorfulListener);
+//        button.setOnTouchListener(colorfulListener);
+//        myView.setOnTouchListener(whiteListener);
+//        listView.setOnTouchListener(colorfulListener);
+        imageView.setOnTouchListener(whiteListener);
+//        if(hasAlpha)
+//        else
+//            imageView.setOnTouchListener(colorfulListener);
     }
 
-    private class MyCallBack extends BrokenCallback{
+    private class MyCallBack extends BrokenCallback {
         @Override
         public void onStart(View v) {
-            showCallback(v,"onStart");
+            showCallback(v, "onStart");
         }
 
         @Override
         public void onCancel(View v) {
-            showCallback(v,"onCancel");
+            showCallback(v, "onCancel");
         }
 
         @Override
         public void onRestart(View v) {
-            showCallback(v,"onRestart");
+            showCallback(v, "onRestart");
         }
 
         @Override
         public void onFalling(View v) {
-            showCallback(v,"onFalling");
+            showCallback(v, "onFalling");
         }
 
         @Override
         public void onFallingEnd(View v) {
-            showCallback(v,"onFallingEnd");
+            showCallback(v, "onFallingEnd");
         }
 
         @Override
         public void onCancelEnd(View v) {
-            showCallback(v,"onCancelEnd");
+            showCallback(v, "onCancelEnd");
         }
     }
 
-    public void showCallback(View v,String s){
+    public void showCallback(View v, String s) {
         switch (v.getId()) {
-            case R.id.demo_parent:
-                Snackbar.make(parentLayout, "RelativeLayout---" + s, Snackbar.LENGTH_SHORT).show();
-                break;
+//            case R.id.demo_parent:
+//                Snackbar.make(parentLayout, "RelativeLayout---" + s, Snackbar.LENGTH_SHORT).show();
+//                break;
             case R.id.demo_image:
                 Snackbar.make(parentLayout, "ImageView---" + s, Snackbar.LENGTH_SHORT).show();
                 break;
-            case R.id.demo_list:
-                Snackbar.make(parentLayout, "ListView---" + s, Snackbar.LENGTH_SHORT).show();
-                break;
-            case R.id.demo_myview:
-                Snackbar.make(parentLayout, "CustomView---" + s, Snackbar.LENGTH_SHORT).show();
-                break;
-            case R.id.demo_button:
-                Snackbar.make(parentLayout, "Button---" + s, Snackbar.LENGTH_SHORT).show();
-                break;
+//            case R.id.demo_list:
+//                Snackbar.make(parentLayout, "ListView---" + s, Snackbar.LENGTH_SHORT).show();
+//                break;
+//            case R.id.demo_myview:
+//                Snackbar.make(parentLayout, "CustomView---" + s, Snackbar.LENGTH_SHORT).show();
+//                break;
+//            case R.id.demo_button:
+//                Snackbar.make(parentLayout, "Button---" + s, Snackbar.LENGTH_SHORT).show();
+//                break;
         }
     }
 
@@ -338,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private class SampleAdapter extends ArrayAdapter<ListItem> {
+    /*private class SampleAdapter extends ArrayAdapter<ListItem> {
         private final LayoutInflater mInflater;
         private int mResource;
         private List<ListItem> items;
@@ -368,5 +385,5 @@ public class MainActivity extends AppCompatActivity {
             this.color = color;
             this.text = text;
         }
-    }
+    }*/
 }

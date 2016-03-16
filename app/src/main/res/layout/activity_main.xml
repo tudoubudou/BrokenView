@@ -1,16 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:background="?attr/colorPrimary" />
-
     <android.support.v4.widget.DrawerLayout
+        android:layout_below="@id/toolbar"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,17 +19,15 @@
         <RelativeLayout
             android:id="@+id/demo_parent"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:padding="15dp"
-            android:background="#99bbff">
+            android:layout_width="match_parent">
             <ImageView
                 android:id="@+id/demo_image"
                 android:layout_alignParentLeft="true"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:scaleType="fitXY" />
-            <ListView
+                android:scaleType="centerCrop" />
+            <!--<ListView
                 android:id="@+id/demo_list"
                 android:layout_width="160dp"
                 android:layout_height="300dp"
@@ -54,7 +53,7 @@
                 android:textColor="#ffffff"
                 android:text="Button"
                 android:textAllCaps="false"
-                android:background="@drawable/demo_button"/>
+                android:background="@drawable/demo_button"/>-->
         </RelativeLayout>
 
         <LinearLayout
@@ -181,4 +180,4 @@
             </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
-</LinearLayout>
+</RelativeLayout>
