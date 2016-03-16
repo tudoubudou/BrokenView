@@ -344,10 +344,10 @@ class BrokenAnimator extends ValueAnimator {
             offsetPath.addPath(path, -r.left + shadow, -r.top + shadow);
 
             // Draw shadow
-            paint.setStyle(Paint.Style.FILL);
-            paint.setShadowLayer(shadow,0,0,0xff333333);
-            canvas.drawPath(offsetPath,paint);
-            paint.setShadowLayer(0,0,0,0);
+//            paint.setStyle(Paint.Style.FILL);
+//            paint.setShadowLayer(shadow,0,0,0xff333333);
+//            canvas.drawPath(offsetPath,paint);
+//            paint.setShadowLayer(0,0,0,0);
 
             // In case the view has alpha channel
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.XOR));
