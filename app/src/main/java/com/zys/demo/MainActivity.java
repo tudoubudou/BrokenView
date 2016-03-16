@@ -4,10 +4,12 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -253,15 +256,28 @@ public class MainActivity extends AppCompatActivity {
 //        listView.setAdapter(new SampleAdapter(MainActivity.this, android.R.layout.simple_list_item_1, items));
 //
 //        int pos = rand.nextInt(resids.length);
-        long start = System.currentTimeMillis();
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
-        // 获取当前壁纸
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bm = ((BitmapDrawable) wallpaperDrawable).getBitmap();
-        int radius = 180;
-        Bitmap blur_bm = FastBlur.doBlur(bm,radius,false);
-        imageView.setImageBitmap(blur_bm);
-        Toast.makeText(this,"time in ms" + (System.currentTimeMillis()-start),Toast.LENGTH_SHORT).show();
+        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT < 16) {
+                    imageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+                long start = System.currentTimeMillis();
+                WallpaperManager wallpaperManager = WallpaperManager.getInstance(MainActivity.this);
+                Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+                Bitmap bm = ((BitmapDrawable) wallpaperDrawable).getBitmap();
+//                int radius = 180;
+                int radius = 40;
+                int factor = 4;
+//                Bitmap scaled_bm = Bitmap.createBitmap(bm,0,0,imageView.getMeasuredWidth()/factor,imageView.getMeasuredHeight()/factor);
+                Bitmap scaled_bm = Bitmap.createScaledBitmap(bm,bm.getWidth()/factor,bm.getHeight()/factor,false);
+                Bitmap blur_bm = FastBlur.doBlur(scaled_bm, radius,false);
+                imageView.setImageBitmap(blur_bm);
+                Toast.makeText(MainActivity.this,"time in ms" + (System.currentTimeMillis()-start),Toast.LENGTH_SHORT).show();
+            }
+        });
 //        if(pos == 0 || pos == 1 || pos == 2)
 //            hasAlpha = true;
 //        else
